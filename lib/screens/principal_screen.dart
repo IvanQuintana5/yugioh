@@ -116,60 +116,63 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
                 ),
         ],
       ),
-     drawer: Drawer(
-  child: ListView(
-    padding: EdgeInsets.zero,
-    children: <Widget>[
-      DrawerHeader(
-        decoration: BoxDecoration(
-          color: Colors.blue,
-        ),
-        child: Text('$userEmail'),
-      ),
-      ListTile(
-        leading: Icon(Icons.home),
-        title: Text('Inicio'),
-        onTap: () {
-          Navigator.pop(context); // Cierra el Drawer
-          // Puedes agregar funcionalidad para la sección de Inicio
-        },
-      ),
-      ListTile(
-        leading: Icon(Icons.favorite),
-        title: Text('Favoritos'),
-        onTap: () {
-          // Navegar a la pantalla de favoritos
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => FavoriteScreen(
-                userEmail: userEmail, // Pasa el email del usuario
-                favoriteCards: _favoriteCards, // Pasa la lista de cartas favoritas
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
               ),
+              child: Text('$userEmail'),
             ),
-          );
-        },
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Inicio'),
+              onTap: () {
+                Navigator.pop(context); // Cierra el Drawer
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.favorite),
+              title: const Text('Favoritos'),
+              onTap: () async {
+                // Navegar a la pantalla de favoritos
+                final updateFavorites = await Navigator.pushReplacement(
+ context,
+                  MaterialPageRoute(
+                    builder: (context) => FavoriteScreen(
+                      userEmail: userEmail, // Pasa el email del usuario
+                      favoriteCards: List<String>.from(_favoriteCards), // Pasa la lista de cartas favoritas
+                      token: widget.token, // Pasa el token
+                    ),
+                  ),
+                );
+                if (updateFavorites != null) {
+                  setState(() {
+                    _favoriteCards = List<String>.from(updateFavorites);
+                  });
+                }
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Cerrar Sesión'),
+              onTap: () async {
+                // Cerrar sesión utilizando el AuthServices
+                await AuthServices().logout(); // Limpia token y SharedPreferences
+                
+                // Navegar de vuelta a la pantalla de login
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                  (Route<dynamic> route) => false, // Elimina todas las rutas previas
+                );
+              },
+            ),
+          ],
+        ),
       ),
-       ListTile(
-        leading: Icon(Icons.logout),
-        title: Text('Cerrar Sesión'),
-        onTap: () async {
-          // Cerrar sesión utilizando el AuthServices
-          await AuthServices().logout(); // Limpia token y SharedPreferences
-          
-          // Navegar de vuelta a la pantalla de login
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => LoginScreen()),
-            (Route<dynamic> route) => false, // Elimina todas las rutas previas
-          );
-        },
-      ),
-    ],
-  ),
-),
-
-
       body: FutureBuilder<List<CardModel>>(
         future: _cardList,
         builder: (context, snapshot) {
@@ -185,54 +188,54 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
           _filteredCards = _filteredCards.isNotEmpty ? _filteredCards : _cards;
 
           return ListView.builder(
-  itemCount: _filteredCards.length,
-  itemBuilder: (context, index) {
-    final card = _filteredCards[index];
-    final isFavorite = _favoriteCards.contains(card.name);
-    Color _textColor = Colors.black; // Color de texto predeterminado
+            itemCount: _filteredCards.length,
+            itemBuilder: (context, index) {
+              final card = _filteredCards[index];
+              final isFavorite = _favoriteCards.contains(card.name);
+              Color _textColor = Colors.black; // Color de texto predeterminado
 
-    return StatefulBuilder(
-      builder: (BuildContext context, StateSetter setState) {
-        return ListTile(
-          leading: Image.network(
-            card.imageUrl,
-          ),
-          title: Text(
-            card.name,
-            style: TextStyle(
-              fontSize: 21, // Tamaño del texto
-              fontWeight: FontWeight.bold,
-              color: _textColor = Colors.black, // Color del texto
-            ),
-          ),
-          trailing: IconButton(
-            icon: Icon(
-              isFavorite ? Icons.favorite : Icons.favorite_border,
-              color: isFavorite ? Colors.red : null,
-            ),
-            onPressed: () {
-              _toggleFavorite(card.name);
+              return StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+                  return ListTile(
+                    leading: Image.network(
+                      card.imageUrl,
+                    ),
+                    title: Text(
+                      card.name,
+                      style: TextStyle(
+                        fontSize: 21, // Tamaño del texto
+                        fontWeight: FontWeight.bold,
+                        color: _textColor = Colors.black, // Color del texto
+                      ),
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(
+                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: isFavorite ? Colors.red : null,
+                      ),
+                      onPressed: () {
+                        _toggleFavorite(card.name);
+                      },
+                    ),
+                    onTap: () {
+                      // Cambiar el color del texto al hacer clic en la carta
+                      setState(() {
+                        _textColor = _textColor == Colors.black ? Colors.blue : Colors.black;
+                      });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailPage(card: card),
+                        ),
+                      );
+                    },
+                  );
+                },
+              );
             },
-          ),
-          onTap: () {
-            // Cambiar el color del texto al hacer clic en la carta
-            setState(() {
-              _textColor = _textColor == Colors.black ? Colors.blue : Colors.black;
-            });
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DetailPage(card: card),
-              ),
-            );
-          },
-        );
-      },
+          );
+        },
+      ),
     );
-  },
-);
-          },
-        ),
-      );
-    }
+  }
 }
