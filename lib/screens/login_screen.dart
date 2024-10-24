@@ -38,7 +38,7 @@ class _LoginForm extends StatelessWidget {
       child: Scaffold(
         body: DecoratedBox(
           decoration:
-              const BoxDecoration(color: Color.fromARGB(255, 125, 100, 216)),
+              const BoxDecoration(color: Color.fromARGB(255, 0, 0, 0)),
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -75,6 +75,7 @@ class _LoginForm extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         color: Color.fromARGB(255, 255, 244, 244)),
                   ),
+                  style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
                   validator: (value) {
                     String pattern =
                         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -95,6 +96,7 @@ class _LoginForm extends StatelessWidget {
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
                           color: Color.fromARGB(255, 253, 246, 246))),
+                          style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
                   validator: (value) {
                     return (value != null && value.length >= 8)
                         ? null
@@ -102,7 +104,7 @@ class _LoginForm extends StatelessWidget {
                   },
                 ),
                 const SizedBox(
-                  height: 16,
+                  height: 18,
                 ),
                 TextButton(
                   onPressed: () {},
@@ -188,7 +190,7 @@ class _LoginForm extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.w500,
-                        color: Color.fromARGB(255, 96, 108, 93)),
+                        color: Color.fromARGB(255, 250, 253, 247)),
                   ),
                 ),
               ],
