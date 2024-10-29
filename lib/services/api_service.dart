@@ -7,7 +7,7 @@ class ApiService {
   static const String _baseUrl = "https://db.ygoprodeck.com/api/v7/cardinfo.php";
   
   Future<List<CardModel>> fetchCards() async {
-    final response = await http.get(Uri.parse("$_baseUrl?level=8&attribute=dark&sort=atk"));
+    final response = await http.get(Uri.parse("$_baseUrl?level=10&attribute=dark&sort=atk"));
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body)['data'];
