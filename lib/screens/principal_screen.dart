@@ -54,6 +54,8 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
     setState(() {
       if (_favoriteCards.contains(cardName)) {
         _favoriteCards.remove(cardName);
+
+        print("Prueba push");
       } else {
         _favoriteCards.add(cardName);
       }
