@@ -11,7 +11,6 @@ import 'package:login_bueno_randy/detail_page.dart';
 class PrincipalScreen extends StatefulWidget {
   final String token;
 
-  // Recibe el token JWT desde la pantalla anterior o el login
   PrincipalScreen({required this.token});
 
   @override
@@ -22,48 +21,39 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
   late Future<List<CardModel>> _cardList;
   late String userEmail;
   List<String> _favoriteCards = [];
-  List<CardModel> _cards = []; // Nueva variable para almacenar las cartas
-  List<CardModel> _filteredCards = []; // Lista para las cartas filtradas
-  bool _isSearching = false; // Controla si está en modo búsqueda o no
+  List<CardModel> _cards = [];
+  List<CardModel> _filteredCards = [];
+  bool _isSearching = false;
   TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    // Decodificamos el token JWT y extraemos el email
     final jwt = JWT.decode(widget.token);
     userEmail = jwt.payload['email'];
-
-    _cardList = ApiService().fetchCards(); // Llamamos al servicio de la API
-
-    // Cargar las cartas favoritas del usuario
+    _cardList = ApiService().fetchCards();
     _loadFavorites();
   }
 
-  // Método para cargar las cartas favoritas desde SharedPreferences
   Future<void> _loadFavorites() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _favoriteCards = prefs.getStringList(userEmail) ?? []; // Cargar favoritos usando el correo como clave
+      _favoriteCards = prefs.getStringList(userEmail) ?? [];
     });
   }
 
-  // Método para agregar o quitar una carta de favoritos
   void _toggleFavorite(String cardName) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       if (_favoriteCards.contains(cardName)) {
         _favoriteCards.remove(cardName);
-
       } else {
         _favoriteCards.add(cardName);
       }
-      // Guardamos los favoritos actualizados en SharedPreferences
       prefs.setStringList(userEmail, _favoriteCards);
     });
   }
 
-  // Filtra las cartas según el término de búsqueda
   void _filterCards(String query) {
     final filteredCards = _cards.where((card) {
       final cardNameLower = card.name.toLowerCase();
@@ -81,7 +71,7 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
     return Scaffold(
       appBar: AppBar(
         title: !_isSearching
-            ? Text("Yu-Gi-Oh Cards", textAlign: TextAlign.center) // Centra el título
+            ? Text("Yu-Gi-Oh Cards", textAlign: TextAlign.center)
             : TextField(
                 controller: _searchController,
                 decoration: InputDecoration(
@@ -94,7 +84,7 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
                   _filterCards(query);
                 },
               ),
-        centerTitle: true, // Centrar el título en el AppBar
+        centerTitle: true,
         actions: [
           !_isSearching
               ? IconButton(
@@ -128,24 +118,16 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
               child: Text('$userEmail'),
             ),
             ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Inicio'),
-              onTap: () {
-                Navigator.pop(context); // Cierra el Drawer
-              },
-            ),
-            ListTile(
               leading: const Icon(Icons.favorite),
               title: const Text('Favoritos'),
               onTap: () async {
-                // Navegar a la pantalla de favoritos
                 final updateFavorites = await Navigator.pushReplacement(
- context,
+                  context,
                   MaterialPageRoute(
                     builder: (context) => FavoriteScreen(
-                      userEmail: userEmail, // Pasa el email del usuario
-                      favoriteCards: List<String>.from(_favoriteCards), // Pasa la lista de cartas favoritas
-                      token: widget.token, // Pasa el token
+                      userEmail: userEmail,
+                      favoriteCards: List<String>.from(_favoriteCards),
+                      token: widget.token,
                     ),
                   ),
                 );
@@ -160,14 +142,11 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
               leading: Icon(Icons.logout),
               title: Text('Cerrar Sesión'),
               onTap: () async {
-                // Cerrar sesión utilizando el AuthServices
-                await AuthServices().logout(); // Limpia token y SharedPreferences
-                
-                // Navegar de vuelta a la pantalla de login
+                await AuthServices().logout();
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => LoginScreen()),
-                  (Route<dynamic> route) => false, // Elimina todas las rutas previas
+                  (Route<dynamic> route) => false,
                 );
               },
             ),
@@ -193,43 +172,32 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
             itemBuilder: (context, index) {
               final card = _filteredCards[index];
               final isFavorite = _favoriteCards.contains(card.name);
-              Color _textColor = Colors.black; // Color de texto predeterminado
 
-              return StatefulBuilder(
-                builder: (BuildContext context, StateSetter setState) {
-                  return ListTile(
-                    leading: Image.network(
-                      card.imageUrl,
+              return ListTile(
+                leading: Image.network(card.imageUrl),
+                title: Text(
+                  card.name,
+                  style: TextStyle(
+                    fontSize: 21,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                trailing: IconButton(
+                  icon: Icon(
+                    isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: isFavorite ? Colors.red : null,
+                  ),
+                  onPressed: () {
+                    _toggleFavorite(card.name);
+                  },
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailPage(card: card),
                     ),
-                    title: Text(
-                      card.name,
-                      style: TextStyle(
-                        fontSize: 21, // Tamaño del texto
-                        fontWeight: FontWeight.bold,
-                        color: _textColor = Colors.black, // Color del texto
-                      ),
-                    ),
-                    trailing: IconButton(
-                      icon: Icon(
-                        isFavorite ? Icons.favorite : Icons.favorite_border,
-                        color: isFavorite ? Colors.red : null,
-                      ),
-                      onPressed: () {
-                        _toggleFavorite(card.name);
-                      },
-                    ),
-                    onTap: () {
-                      // Cambiar el color del texto al hacer clic en la carta
-                      setState(() {
-                        _textColor = _textColor == Colors.black ? Colors.blue : Colors.black;
-                      });
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailPage(card: card),
-                        ),
-                      );
-                    },
                   );
                 },
               );
