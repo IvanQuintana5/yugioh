@@ -7,7 +7,8 @@ import 'package:login_bueno_randy/screens/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthServices extends ChangeNotifier {
-  final String _baseUrl ='xtestlogin.somee.com'; // Aquí va la URL de nuestro login. No lleva http ni www.
+  final String _baseUrl =
+      'xtestlogin.somee.com'; // Aquí va la URL de nuestro login. No lleva http ni www.
   final storage = new FlutterSecureStorage();
 
   // Método para registrar un nuevo usuario
@@ -113,12 +114,13 @@ class AuthServices extends ChangeNotifier {
   }
 
   // Método para hacer logout (borrar el token)
- Future<void> logout() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  
-  // no agregar esta linea a menos de que quieras que se elimine todo cada vez que se cierra la sesion
-  //await prefs.clear(); // Limpiamos el almacenamiento, incluyendo el token
+  Future<void> logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  await storage.delete(key: 'token'); // Elimina el token del almacenamiento seguro
-}
+    // no agregar esta linea a menos de que quieras que se elimine todo cada vez que se cierra la sesion
+    //await prefs.clear(); // Limpiamos el almacenamiento, incluyendo el token
+
+    await storage.delete(
+        key: 'token'); // Elimina el token del almacenamiento seguro
   }
+}
