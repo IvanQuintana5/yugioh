@@ -66,93 +66,112 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Cartas Favoritas'),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
-              child: Text(
-                'Menú',
-                style: TextStyle(color: Colors.white, fontSize: 24),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Inicio'),
-              onTap: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PrincipalScreen(token: widget.token),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Cerrar sesión'),
-              onTap: _logout, // Llama a la función _logout cuando se presiona
-            ),
-          ],
-        ),
-      ),
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset(
-              'assets/ff.png', // Asegúrate de que la imagen está en la carpeta assets y registrada en pubspec.yaml
-              fit: BoxFit.cover,
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Text('Cartas Favoritas'),
+    ),
+    drawer: Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            decoration: BoxDecoration(color: Colors.blue),
+            child: Text(
+              'Menú',
+              style: TextStyle(color: Colors.white, fontSize: 24),
             ),
           ),
-          FutureBuilder<List<CardModel>>(
-            future: _favoriteCardDetailsFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return Center(child: Text("Error: ${snapshot.error}"));
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Center(child: Text("No hay cartas favoritas aún.",style: TextStyle(color: Colors.white, fontSize: 24),));
-              }
-
-              final favoriteCardDetails = snapshot.data!;
-
-              return ListView.builder(
-                itemCount: favoriteCardDetails.length,
-                itemBuilder: (context, index) {
-                  final card = favoriteCardDetails[index];
-                  return ListTile(
-                    leading: Image.network(card.imageUrl),
-                    title: Text(
-                      card.name,
-                      style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold, color: Colors.white),
-                    ),
-                    trailing: IconButton(
-                      icon: Icon(Icons.favorite, color: Colors.red),
-                      onPressed: () {
-                        _removeFavorite(card.name);
-                      },
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DetailPage(card: card)),
-                      );
-                    },
-                  );
-                },
+          ListTile(
+            leading: Icon(Icons.home),
+            title: Text('Inicio'),
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PrincipalScreen(token: widget.token),
+                ),
               );
             },
           ),
+          ListTile(
+            leading: Icon(Icons.logout),
+            title: Text('Cerrar sesión'),
+            onTap: _logout, // Llama a la función _logout cuando se presiona
+          ),
         ],
       ),
-    );
-  }
+    ),
+    body: Stack(
+      children: [
+        Positioned.fill(
+          child: Image.asset(
+            'assets/ff.png', // Asegúrate de que la imagen está en la carpeta assets y registrada en pubspec.yaml
+            fit: BoxFit.cover,
+          ),
+        ),
+        // Degradado en el fondo
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.black.withOpacity(0.4), // Color inicial del degradado
+                Colors.black.withOpacity(0.4), // Color final del degradado
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+        ),
+        FutureBuilder<List<CardModel>>(
+          future: _favoriteCardDetailsFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text("Error: ${snapshot.error}"));
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return Center(
+                child: Text(
+                  "No hay cartas favoritas aún.",
+                  style: TextStyle(color: Colors.white, fontSize: 24),
+                ),
+              );
+            }
+
+            final favoriteCardDetails = snapshot.data!;
+
+            return ListView.builder(
+              itemCount: favoriteCardDetails.length,
+              itemBuilder: (context, index) {
+                final card = favoriteCardDetails[index];
+                return ListTile(
+                  leading: Image.network(card.imageUrl),
+                  title: Text(
+                    card.name,
+                    style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  trailing: IconButton(
+                    icon: Icon(Icons.favorite, color: Colors.red),
+                    onPressed: () {
+                      _removeFavorite(card.name);
+                    },
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailPage(card: card),
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+          },
+        ),
+      ],
+    ),
+  );
+}
 }
