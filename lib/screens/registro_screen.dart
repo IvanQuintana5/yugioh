@@ -55,7 +55,7 @@ class RegistroScreen extends StatelessWidget {
                 controller: _passwordController,
                 obscureText: true,
                 decoration: const InputDecoration(
-                  hintText: '*****',
+                  hintText: '*******',
                   labelText: 'Contraseña',
                   labelStyle: TextStyle(
                     fontSize: 20,
