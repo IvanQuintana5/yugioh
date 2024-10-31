@@ -102,46 +102,56 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           ],
         ),
       ),
-      body: FutureBuilder<List<CardModel>>(
-        future: _favoriteCardDetailsFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text("Error: ${snapshot.error}"));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text("No hay cartas favoritas aún."));
-          }
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              'assets/ff.png', // Asegúrate de que la imagen está en la carpeta assets y registrada en pubspec.yaml
+              fit: BoxFit.cover,
+            ),
+          ),
+          FutureBuilder<List<CardModel>>(
+            future: _favoriteCardDetailsFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text("Error: ${snapshot.error}"));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return Center(child: Text("No hay cartas favoritas aún.",style: TextStyle(color: Colors.white, fontSize: 24),));
+              }
 
-          final favoriteCardDetails = snapshot.data!;
+              final favoriteCardDetails = snapshot.data!;
 
-          return ListView.builder(
-            itemCount: favoriteCardDetails.length,
-            itemBuilder: (context, index) {
-              final card = favoriteCardDetails[index];
-              return ListTile(
-                leading: Image.network(card.imageUrl),
-                title: Text(
-                  card.name,
-                  style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
-                ),
-                trailing: IconButton(
-                  icon: Icon(Icons.favorite, color: Colors.red),
-                  onPressed: () {
-                    _removeFavorite(card.name);
-                  },
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => DetailPage(card: card)),
+              return ListView.builder(
+                itemCount: favoriteCardDetails.length,
+                itemBuilder: (context, index) {
+                  final card = favoriteCardDetails[index];
+                  return ListTile(
+                    leading: Image.network(card.imageUrl),
+                    title: Text(
+                      card.name,
+                      style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold, color: Colors.white),
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(Icons.favorite, color: Colors.red),
+                      onPressed: () {
+                        _removeFavorite(card.name);
+                      },
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DetailPage(card: card)),
+                      );
+                    },
                   );
                 },
               );
             },
-          );
-        },
+          ),
+        ],
       ),
     );
   }

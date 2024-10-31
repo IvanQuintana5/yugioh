@@ -12,8 +12,8 @@ class DetailPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(card.name),
       ),
+      backgroundColor: Colors.black, // Fondo negro para la pantalla
       body: SingleChildScrollView(
-        // Envolver todo el contenido en un scroll
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -23,19 +23,42 @@ class DetailPage extends StatelessWidget {
               SizedBox(height: 16),
               Text(
                 card.name,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white, // Color blanco para el texto
+                ),
               ),
               SizedBox(height: 8),
-              Text("Tipo: ${card.typeline.join(", ")}"),
-              Text("Atributo: ${card.attribute}"),
-              Text("ATK: ${card.atk} DEF: ${card.def}"),
-              Text("Nivel: ${card.level}"),
+              Text(
+                "Tipo: ${card.typeline.join(", ")}",
+                style: TextStyle(color: Colors.white), // Color blanco para el texto
+              ),
+              Text(
+                "Atributo: ${card.attribute}",
+                style: TextStyle(color: Colors.white),
+              ),
+              Text(
+                "ATK: ${card.atk} DEF: ${card.def}",
+                style: TextStyle(color: Colors.white),
+              ),
+              Text(
+                "Nivel: ${card.level}",
+                style: TextStyle(color: Colors.white),
+              ),
               SizedBox(height: 16),
               Text(
                 "Descripción:",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
-              Text(card.desc),
+              Text(
+                card.desc,
+                style: TextStyle(color: Colors.white),
+              ),
             ],
           ),
         ),

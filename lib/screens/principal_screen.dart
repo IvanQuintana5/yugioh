@@ -113,9 +113,9 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: const Color.fromARGB(255, 243, 33, 33),
               ),
-              child: Text('$userEmail'),
+              child: Text('$userEmail',style: TextStyle(color: Colors.white, fontSize: 20)),
             ),
             ListTile(
               leading: const Icon(Icons.favorite),
@@ -153,57 +153,68 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
           ],
         ),
       ),
-      body: FutureBuilder<List<CardModel>>(
-        future: _cardList,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text("Error: ${snapshot.error}"));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text("No cards found"));
-          }
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              'assets/fp.png',
+              fit: BoxFit.cover,
+            ),
+          ),
+          FutureBuilder<List<CardModel>>(
+            future: _cardList,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text("Error: ${snapshot.error}"));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return Center(child: Text("No cards found"));
+              }
 
-          _cards = snapshot.data!;
-          _filteredCards = _filteredCards.isNotEmpty ? _filteredCards : _cards;
+              _cards = snapshot.data!;
+              _filteredCards =
+                  _filteredCards.isNotEmpty ? _filteredCards : _cards;
 
-          return ListView.builder(
-            itemCount: _filteredCards.length,
-            itemBuilder: (context, index) {
-              final card = _filteredCards[index];
-              final isFavorite = _favoriteCards.contains(card.name);
+              return ListView.builder(
+                itemCount: _filteredCards.length,
+                itemBuilder: (context, index) {
+                  final card = _filteredCards[index];
+                  final isFavorite = _favoriteCards.contains(card.name);
 
-              return ListTile(
-                leading: Image.network(card.imageUrl),
-                title: Text(
-                  card.name,
-                  style: TextStyle(
-                    fontSize: 21,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-                trailing: IconButton(
-                  icon: Icon(
-                    isFavorite ? Icons.favorite : Icons.favorite_border,
-                    color: isFavorite ? Colors.red : null,
-                  ),
-                  onPressed: () {
-                    _toggleFavorite(card.name);
-                  },
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DetailPage(card: card),
+                  return ListTile(
+                    leading: Image.network(card.imageUrl),
+                    title: Text(
+                      card.name,
+                      style: TextStyle(
+                        fontSize: 21,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
+                    trailing: IconButton(
+                      icon: Icon(
+                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: isFavorite ? Colors.red : Colors.white,
+                      ),
+                      onPressed: () {
+                        _toggleFavorite(card.name);
+                      },
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailPage(card: card),
+                        ),
+                      );
+                    },
                   );
                 },
               );
             },
-          );
-        },
+          ),
+        ],
       ),
     );
   }
