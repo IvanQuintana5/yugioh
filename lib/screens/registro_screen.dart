@@ -28,8 +28,8 @@ class RegistroScreen extends StatelessWidget {
                 height: size.height * 0.17,
                 alignment: Alignment.center,
                 decoration: const BoxDecoration(
-                  //todo: agregar una imagen
-                ),
+                    //todo: agregar una imagen
+                    ),
               ),
               Container(
                 width: size.width * 0.80,
@@ -76,9 +76,10 @@ class RegistroScreen extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  final authService = Provider.of<AuthServices>(context, listen: false);
+                  final authService =
+                      Provider.of<AuthServices>(context, listen: false);
 
-                  final String? errorMessage = await authService.createUser (
+                  final String? errorMessage = await authService.createUser(
                     _emailController.text,
                     _passwordController.text,
                   );
@@ -89,7 +90,8 @@ class RegistroScreen extends StatelessWidget {
 
                     // Mostrar notificación de registro exitoso después de un pequeño retraso
                     Future.delayed(const Duration(milliseconds: 500), () {
-                      NotificationsServices.showSnackbar('Registro exitoso: Email y contraseña registrados.');
+                      NotificationsServices.showSnackbar(
+                          'Registro exitoso: Email y contraseña registrados.');
                     });
                   } else {
                     NotificationsServices.showSnackbar(errorMessage);

@@ -12,7 +12,10 @@ class FavoriteScreen extends StatefulWidget {
   final List<String> favoriteCards;
   final String token;
 
-  FavoriteScreen({required this.userEmail, required this.favoriteCards, required this.token});
+  FavoriteScreen(
+      {required this.userEmail,
+      required this.favoriteCards,
+      required this.token});
 
   @override
   _FavoriteScreenState createState() => _FavoriteScreenState();
@@ -32,7 +35,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   Future<List<CardModel>> _loadFavoriteCardDetails() async {
     List<CardModel> cards = await ApiService().fetchCards();
-    return cards.where((card) => widget.favoriteCards.contains(card.name)).toList();
+    return cards
+        .where((card) => widget.favoriteCards.contains(card.name))
+        .toList();
   }
 
   void _removeFavorite(String cardName) async {
@@ -129,7 +134,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => DetailPage(card: card)),
+                    MaterialPageRoute(
+                        builder: (context) => DetailPage(card: card)),
                   );
                 },
               );

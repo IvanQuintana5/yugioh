@@ -11,7 +11,8 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true, // Permite que la pantalla se adapte al teclado
+      resizeToAvoidBottomInset:
+          true, // Permite que la pantalla se adapte al teclado
       backgroundColor: Colors.black, // Fondo negro
       body: SafeArea(
         child: ChangeNotifierProvider(
@@ -49,7 +50,8 @@ class _LoginForm extends StatelessWidget {
               height: size.height * 0.4,
             ),
           ),
-          const SizedBox(height: 25), // Espacio entre la imagen y los campos de texto
+          const SizedBox(
+              height: 25), // Espacio entre la imagen y los campos de texto
           TextFormField(
             autocorrect: false,
             keyboardType: TextInputType.emailAddress,
@@ -143,8 +145,7 @@ class _LoginForm extends StatelessWidget {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              PrincipalScreen(token: token),
+                          builder: (context) => PrincipalScreen(token: token),
                         ),
                       );
                     } else {

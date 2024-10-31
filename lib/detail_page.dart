@@ -12,7 +12,8 @@ class DetailPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(card.name),
       ),
-      body: SingleChildScrollView( // Envolver todo el contenido en un scroll
+      body: SingleChildScrollView(
+        // Envolver todo el contenido en un scroll
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(

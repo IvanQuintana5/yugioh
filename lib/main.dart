@@ -37,14 +37,15 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Login and Yu-Gi-Oh Cards',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 2247, 230, 196)),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Color.fromARGB(255, 2247, 230, 196)),
         useMaterial3: true,
         primarySwatch: Colors.blue,
       ),
       initialRoute: 'checking', // Cambiar el estado inicial según autenticación
       routes: {
         'login': (_) => LoginScreen(), // Pantalla de login
-        'register': (_) => RegistroScreen(),// Pantalla de registro
+        'register': (_) => RegistroScreen(), // Pantalla de registro
         // La nueva página principal con cartas Yu-Gi-Oh
         'checking': (_) => CheckAuthScreen(), // Verificación de autenticación
       },
@@ -60,11 +61,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late Future<List<CardModel>> _cardList;
-  
+
   @override
   void initState() {
     super.initState();
-    _cardList = ApiService().fetchCards(); // Llamamos al servicio para las cartas Yu-Gi-Oh
+    _cardList = ApiService()
+        .fetchCards(); // Llamamos al servicio para las cartas Yu-Gi-Oh
   }
 
   @override
