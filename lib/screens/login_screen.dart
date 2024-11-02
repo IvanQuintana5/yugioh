@@ -136,22 +136,41 @@ class _LoginForm extends StatelessWidget {
                       return;
                     }
 
-                    final String? token = await authService.login(
+                    final String? response = await authService.login(
                       _emailController.text,
                       _passwordController.text,
                     );
 
-                    if (token != null) {
+                    if (response == null ||
+                        response.contains('Login incorrecto')) {
+                      // Aquí mostramos un mensaje de error
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text("Login Failed"),
+                            content: const Text(
+                                "Correo o contraseña incorrectos. Por favor, intente de nuevo."),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text("OK"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                      loginForm.isLoading = false;
+                    } else {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => PrincipalScreen(token: token),
+                          builder: (context) =>
+                              PrincipalScreen(token: response),
                         ),
                       );
-                    } else {
-                      NotificationsServices.showSnackbar(
-                          'Login failed, please try again');
-                      loginForm.isLoading = false;
                     }
                   },
             style: ButtonStyle(
@@ -167,6 +186,7 @@ class _LoginForm extends StatelessWidget {
               ),
             ),
           ),
+
           const SizedBox(height: 16),
           ElevatedButton(
             style: ButtonStyle(
