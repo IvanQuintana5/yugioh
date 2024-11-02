@@ -1,3 +1,4 @@
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -74,37 +75,22 @@ class AuthServices extends ChangeNotifier {
       body: json.encode(authData),
     );
 
-    // Aquí imprimimos el cuerpo de la respuesta para ver si es lo que esperamos
-    print('Response body: ${resp.body}');
+    print('Response body login: ${resp.body}');
 
-    final decodeResp = json.decode(resp.body);
+    if (resp.statusCode == 200) {
+      final decodeResp = json.decode(resp.body);
 
-    // Verificar si la respuesta contiene un token
-    if (decodeResp.containsKey('token')) {
-      String token = decodeResp['token'];
+      if (decodeResp.containsKey('token')) {
+        String token = decodeResp['token'];
 
-      // Validar que el token esté en el formato JWT correcto (header.payload.signature)
-      if (token.split('.').length != 3) {
-        return 'Token no válido'; // Retorna error si no es un JWT válido
+        await storage.write(key: 'token', value: token);
+        return token;
       }
-
-      // Guardamos el token en el almacenamiento seguro
-      await storage.write(key: 'token', value: decodeResp['token']);
-      return token; // Login exitoso
-    } else if (decodeResp.containsKey('errors')) {
-      // Si hay errores en la respuesta, los manejamos
-      final errors = decodeResp['errors'];
-      if (errors.containsKey('Email')) {
-        print('Error en Email: ${errors['Email'][0]}');
-        return errors['Email'][0];
-      }
-      if (errors.containsKey('Password')) {
-        print('Error en Password: ${errors['Password'][0]}');
-        return errors['Password'][0];
-      }
+    } else if (resp.statusCode == 400) {
+      final decodeResp = json.decode(resp.body);
+      return decodeResp['error'] ?? 'Login incorrecto';
     }
 
-    // Retorno por defecto si no hay token ni errores
     return 'Error desconocido al iniciar sesión';
   }
 
@@ -122,5 +108,17 @@ class AuthServices extends ChangeNotifier {
 
     await storage.delete(
         key: 'token'); // Elimina el token del almacenamiento seguro
+  }
+
+  Future<Map<String, dynamic>?> validateToken(String token) async {
+    try {
+      final jwt =
+          JWT.verify(token, SecretKey('mi_secreto')); // Usa tu clave secreta
+      return jwt
+          .payload; // Retorna la información del payload decodificado si es válido
+    } catch (e) {
+      print('Token inválido: $e');
+      return null; // Retorna null si el token no es válido
+    }
   }
 }
