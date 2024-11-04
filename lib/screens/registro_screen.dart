@@ -15,7 +15,7 @@ class RegistroScreen extends StatelessWidget {
     return Scaffold(
       body: DecoratedBox(
         decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 27, 113, 194),
+          color: Color.fromARGB(255, 0, 0, 0),
         ),
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -23,19 +23,15 @@ class RegistroScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Container(
-                width: size.width * 0.80,
-                height: size.height * 0.17,
-                alignment: Alignment.center,
-                decoration: const BoxDecoration(
-                    //todo: agregar una imagen
-                    ),
+              // Contenedor para la imagen de fondo
+              Center(
+                child: Image.asset(
+                  'assets/logo.png', // Asegúrate de que el archivo esté en la carpeta assets
+                  width: size.width * 0.6,
+                  height: size.height * 0.2,
+                ),
               ),
-              Container(
-                width: size.width * 0.80,
-                height: size.height * 0.05,
-                alignment: Alignment.center,
-              ),
+              const SizedBox(height: 20),
               TextField(
                 controller: _emailController,
                 decoration: const InputDecoration(
@@ -48,9 +44,7 @@ class RegistroScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 16,
-              ),
+              const SizedBox(height: 16),
               TextField(
                 controller: _passwordController,
                 obscureText: true,
@@ -64,9 +58,7 @@ class RegistroScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 16,
-              ),
+              const SizedBox(height: 16),
               TextButton(
                 onPressed: () {},
                 child: const Text(
@@ -111,9 +103,7 @@ class RegistroScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 16,
-              ),
+              const SizedBox(height: 16),
               TextButton(
                 onPressed: () {
                   Navigator.pushNamed(context, 'login', arguments: '');
