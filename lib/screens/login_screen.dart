@@ -11,9 +11,8 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset:
-          true, // Permite que la pantalla se adapte al teclado
-      backgroundColor: Colors.black, // Fondo negro
+      resizeToAvoidBottomInset: true,
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: ChangeNotifierProvider(
           create: (_) => LoginFormProvider(),
@@ -24,11 +23,17 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class _LoginForm extends StatelessWidget {
+class _LoginForm extends StatefulWidget {
+  _LoginForm({super.key});
+
+  @override
+  __LoginFormState createState() => __LoginFormState();
+}
+
+class __LoginFormState extends State<_LoginForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  _LoginForm({super.key});
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -42,22 +47,21 @@ class _LoginForm extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const SizedBox(height: 15),
-          // Imagen en la parte superior
           Center(
             child: Image.asset(
-              'assets/logo.png', // Asegúrate de que el archivo esté en la carpeta assets
+              'assets/logo.png',
               width: size.width * 0.6,
               height: size.height * 0.4,
             ),
           ),
-          const SizedBox(
-              height: 25), // Espacio entre la imagen y los campos de texto
+          const SizedBox(height: 25),
           TextFormField(
             autocorrect: false,
             keyboardType: TextInputType.emailAddress,
             controller: _emailController,
             decoration: const InputDecoration(
               hintText: 'ejemplo@correo.com',
+              hintStyle: TextStyle(color: Colors.white54), // Hint en blanco opaco
               labelText: 'Email',
               labelStyle: TextStyle(
                 fontSize: 20,
@@ -79,14 +83,26 @@ class _LoginForm extends StatelessWidget {
           TextFormField(
             autocorrect: false,
             controller: _passwordController,
-            obscureText: true,
-            decoration: const InputDecoration(
+            obscureText: _obscureText,
+            decoration: InputDecoration(
               hintText: '********',
+              hintStyle: TextStyle(color: Colors.white54), // Hint en blanco opaco
               labelText: 'Password',
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
                 color: Color.fromARGB(255, 253, 246, 246),
+              ),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _obscureText ? Icons.visibility : Icons.visibility_off,
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                ),
+                onPressed: () {
+                  setState(() {
+                    _obscureText = !_obscureText;
+                  });
+                },
               ),
             ),
             style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
@@ -143,7 +159,6 @@ class _LoginForm extends StatelessWidget {
 
                     if (response == null ||
                         response.contains('Login incorrecto')) {
-                      // Aquí mostramos un mensaje de error
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -186,7 +201,6 @@ class _LoginForm extends StatelessWidget {
               ),
             ),
           ),
-
           const SizedBox(height: 16),
           ElevatedButton(
             style: ButtonStyle(
@@ -195,8 +209,7 @@ class _LoginForm extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              Navigator.pushReplacementNamed(context, 'register',
-                  arguments: '');
+              Navigator.pushReplacementNamed(context, 'register', arguments: '');
             },
             child: const Text(
               'Regístrate',

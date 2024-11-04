@@ -3,10 +3,17 @@ import 'package:login_bueno_randy/services/auth_services.dart';
 import 'package:login_bueno_randy/services/notifications_services.dart';
 import 'package:provider/provider.dart';
 
-class RegistroScreen extends StatelessWidget {
+class RegistroScreen extends StatefulWidget {
   RegistroScreen({super.key});
+
+  @override
+  _RegistroScreenState createState() => _RegistroScreenState();
+}
+
+class _RegistroScreenState extends State<RegistroScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +30,9 @@ class RegistroScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Contenedor para la imagen de fondo
               Center(
                 child: Image.asset(
-                  'assets/logo.png', // Asegúrate de que el archivo esté en la carpeta assets
+                  'assets/logo.png',
                   width: size.width * 0.6,
                   height: size.height * 0.2,
                 ),
@@ -34,27 +40,42 @@ class RegistroScreen extends StatelessWidget {
               const SizedBox(height: 20),
               TextField(
                 controller: _emailController,
+                style: const TextStyle(color: Colors.white), // Texto en blanco
                 decoration: const InputDecoration(
                   hintText: 'ejemplo@email.com',
+                  hintStyle: TextStyle(color: Colors.white54), // Hint en blanco opaco
                   labelText: 'Email',
                   labelStyle: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
-                    color: Color.fromARGB(255, 255, 244, 244),
+                    color: Color.fromARGB(255, 255, 255, 255),
                   ),
                 ),
               ),
               const SizedBox(height: 16),
               TextField(
                 controller: _passwordController,
-                obscureText: true,
-                decoration: const InputDecoration(
+                obscureText: _obscureText,
+                style: const TextStyle(color: Colors.white), // Texto en blanco
+                decoration: InputDecoration(
                   hintText: '*******',
+                  hintStyle: const TextStyle(color: Colors.white54), // Hint en blanco opaco
                   labelText: 'Contraseña',
-                  labelStyle: TextStyle(
+                  labelStyle: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                     color: Color.fromARGB(255, 255, 244, 244),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscureText ? Icons.visibility : Icons.visibility_off,
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
                   ),
                 ),
               ),
@@ -77,10 +98,7 @@ class RegistroScreen extends StatelessWidget {
                   );
 
                   if (errorMessage == null) {
-                    // Navegar a PrincipalScreen
                     Navigator.pushReplacementNamed(context, 'login');
-
-                    // Mostrar notificación de registro exitoso después de un pequeño retraso
                     Future.delayed(const Duration(milliseconds: 500), () {
                       NotificationsServices.showSnackbar(
                           'Registro exitoso: Email y contraseña registrados.');
@@ -109,7 +127,7 @@ class RegistroScreen extends StatelessWidget {
                   Navigator.pushNamed(context, 'login', arguments: '');
                 },
                 child: const Text(
-                  'Ya tienes una cuenta? Iniciar sesion',
+                  'Ya tienes una cuenta? Iniciar sesión',
                   style: TextStyle(color: Color.fromARGB(255, 255, 244, 244)),
                 ),
               ),
