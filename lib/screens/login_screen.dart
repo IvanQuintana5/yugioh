@@ -68,6 +68,19 @@ class __LoginFormState extends State<_LoginForm> {
                 fontWeight: FontWeight.w500,
                 color: Color.fromARGB(255, 255, 244, 244),
               ),
+              // Borde del cuadro
+              border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: Colors.white, width: 1.5),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: const Color.fromARGB(255, 245, 220, 33), width: 1.5),
+              ),
             ),
             style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
             validator: (value) {
@@ -92,6 +105,19 @@ class __LoginFormState extends State<_LoginForm> {
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
                 color: Color.fromARGB(255, 253, 246, 246),
+              ),
+              // Borde del cuadro
+              border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: Colors.white, width: 1.5),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: const Color.fromARGB(255, 245, 220, 33), width: 1.5),
               ),
               suffixIcon: IconButton(
                 icon: Icon(

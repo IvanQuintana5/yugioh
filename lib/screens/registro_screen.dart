@@ -50,9 +50,21 @@ class _RegistroScreenState extends State<RegistroScreen> {
                     fontWeight: FontWeight.w500,
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: Colors.white, width: 1.5),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: const Color.fromARGB(255, 245, 220, 33), width: 1.5),
+              ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 28),
               TextField(
                 controller: _passwordController,
                 obscureText: _obscureText,
@@ -66,6 +78,18 @@ class _RegistroScreenState extends State<RegistroScreen> {
                     fontWeight: FontWeight.w500,
                     color: Color.fromARGB(255, 255, 244, 244),
                   ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: Colors.white, width: 1.5),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: const Color.fromARGB(255, 245, 220, 33), width: 1.5),
+              ),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscureText ? Icons.visibility : Icons.visibility_off,
