@@ -61,7 +61,8 @@ class __LoginFormState extends State<_LoginForm> {
             controller: _emailController,
             decoration: const InputDecoration(
               hintText: 'ejemplo@correo.com',
-              hintStyle: TextStyle(color: Colors.white54), // Hint en blanco opaco
+              hintStyle:
+                  TextStyle(color: Colors.white54), // Hint en blanco opaco
               labelText: 'Email',
               labelStyle: TextStyle(
                 fontSize: 20,
@@ -70,16 +71,17 @@ class __LoginFormState extends State<_LoginForm> {
               ),
               // Borde del cuadro
               border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: Colors.white),
+              ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 borderSide: BorderSide(color: Colors.white, width: 1.5),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(color: const Color.fromARGB(255, 245, 220, 33), width: 1.5),
+                borderSide: BorderSide(
+                    color: const Color.fromARGB(255, 245, 220, 33), width: 1.5),
               ),
             ),
             style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
@@ -99,7 +101,8 @@ class __LoginFormState extends State<_LoginForm> {
             obscureText: _obscureText,
             decoration: InputDecoration(
               hintText: '********',
-              hintStyle: TextStyle(color: Colors.white54), // Hint en blanco opaco
+              hintStyle:
+                  TextStyle(color: Colors.white54), // Hint en blanco opaco
               labelText: 'Password',
               labelStyle: const TextStyle(
                 fontSize: 20,
@@ -108,16 +111,17 @@ class __LoginFormState extends State<_LoginForm> {
               ),
               // Borde del cuadro
               border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: Colors.white),
+              ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 borderSide: BorderSide(color: Colors.white, width: 1.5),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(color: const Color.fromARGB(255, 245, 220, 33), width: 1.5),
+                borderSide: BorderSide(
+                    color: const Color.fromARGB(255, 245, 220, 33), width: 1.5),
               ),
               suffixIcon: IconButton(
                 icon: Icon(
@@ -235,7 +239,8 @@ class __LoginFormState extends State<_LoginForm> {
               ),
             ),
             onPressed: () {
-              Navigator.pushReplacementNamed(context, 'register', arguments: '');
+              Navigator.pushReplacementNamed(context, 'register',
+                  arguments: '');
             },
             child: const Text(
               'Regístrate',

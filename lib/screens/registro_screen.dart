@@ -43,7 +43,8 @@ class _RegistroScreenState extends State<RegistroScreen> {
                 style: const TextStyle(color: Colors.white), // Texto en blanco
                 decoration: const InputDecoration(
                   hintText: 'ejemplo@email.com',
-                  hintStyle: TextStyle(color: Colors.white54), // Hint en blanco opaco
+                  hintStyle:
+                      TextStyle(color: Colors.white54), // Hint en blanco opaco
                   labelText: 'Email',
                   labelStyle: TextStyle(
                     fontSize: 20,
@@ -54,14 +55,16 @@ class _RegistroScreenState extends State<RegistroScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(color: Colors.white),
                   ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(color: Colors.white, width: 1.5),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(color: const Color.fromARGB(255, 245, 220, 33), width: 1.5),
-              ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(color: Colors.white, width: 1.5),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(
+                        color: const Color.fromARGB(255, 245, 220, 33),
+                        width: 1.5),
+                  ),
                 ),
               ),
               const SizedBox(height: 28),
@@ -71,7 +74,8 @@ class _RegistroScreenState extends State<RegistroScreen> {
                 style: const TextStyle(color: Colors.white), // Texto en blanco
                 decoration: InputDecoration(
                   hintText: '*******',
-                  hintStyle: const TextStyle(color: Colors.white54), // Hint en blanco opaco
+                  hintStyle: const TextStyle(
+                      color: Colors.white54), // Hint en blanco opaco
                   labelText: 'Contraseña',
                   labelStyle: const TextStyle(
                     fontSize: 20,
@@ -82,14 +86,16 @@ class _RegistroScreenState extends State<RegistroScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(color: Colors.white),
                   ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(color: Colors.white, width: 1.5),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(color: const Color.fromARGB(255, 245, 220, 33), width: 1.5),
-              ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(color: Colors.white, width: 1.5),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(
+                        color: const Color.fromARGB(255, 245, 220, 33),
+                        width: 1.5),
+                  ),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscureText ? Icons.visibility : Icons.visibility_off,
